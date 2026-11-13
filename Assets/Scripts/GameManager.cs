@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     float startZ;
     int meters = 0;
     int best = 0;
+    public bool IsOver { get { return isOver; } }
 
     void Awake()
     {

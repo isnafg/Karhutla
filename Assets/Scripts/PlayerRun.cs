@@ -30,6 +30,12 @@ public class PlayerRun : MonoBehaviour
     {
         Keyboard kb = Keyboard.current;
 
+        // Nothing moves while the game is paused or over
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
+
         // 0. Difficulty: the run gets faster the longer you play
         runTime += Time.deltaTime;
         runSpeed = Mathf.Min(startSpeed + runTime * speedGainPerSecond, maxSpeed);
