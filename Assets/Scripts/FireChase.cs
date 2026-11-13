@@ -46,6 +46,10 @@ public class FireChase : MonoBehaviour
         hits++;
         calmTimer = calmTime;
         AirSystem.Instance.AddAir(-airPenalty);
+        if (PostFx.Instance != null)
+        {
+            PostFx.Instance.Flash();
+        }
 
         if (hits >= hitsToDie)
         {
