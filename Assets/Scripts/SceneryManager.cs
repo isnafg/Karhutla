@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 public class SceneryManager : MonoBehaviour
 {
-    public GameObject forestPrefab;
-    public GameObject burntPrefab;
-    public GameObject housePrefab;
+    public GameObject[] forestPrefabs;
+    public GameObject[] burntPrefabs;
+    public GameObject[] housePrefabs;
     public Transform player;
+    public float groundY = 0.25f;
     public float spawnAhead = 100f;
     public float removeBehind = 30f;
     public float minGap = 4f;
@@ -24,15 +25,16 @@ public class SceneryManager : MonoBehaviour
         while (nextZ < player.position.z + spawnAhead)
         {
             ZoneType zone = ZoneTrack.Instance.TypeAt(nextZ);
-            GameObject prefab = forestPrefab;
+            GameObject[] list = forestPrefabs;
             if (zone == ZoneType.Village)
             {
-                prefab = housePrefab;
+                list = housePrefabs;
             }
             else if (zone == ZoneType.Wildfire)
             {
-                prefab = burntPrefab;
+                list = burntPrefabs;
             }
+            GameObject prefab = list[Random.Range(0, list.Length)];
 
             float x = Random.Range(minSide, maxSide);
             if (leftSide)
@@ -48,9 +50,35 @@ public class SceneryManager : MonoBehaviour
                 rot = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
             }
 
-            Vector3 pos = new Vector3(x, prefab.transform.position.y, nextZ);
-            items.Enqueue(Instantiate(prefab, pos, rot));
-            nextZ += Random.Range(minGap, maxGap);
+            GameObject item = Instantiate(prefab, new Vector3(x, groundY, nextZ), rot);
+            item.transform.localScale *= Random.Range(0.8f, 1.3f);
+
+            // Move it so the lowest point of the model touches the ground
+            bool found = false;
+            Bounds bounds = new Bounds();
+            foreach (Renderer r in item.GetComponentsInChildren<Renderer>())
+            {
+                if (!r.enabled)
+                {
+                    continue;
+                }
+                if (!found)
+                {
+                    bounds = r.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(r.bounds);
+                }
+            }
+            if (found)
+            {
+                item.transform.position += Vector3.up * (groundY - bounds.min.y);
+            }
+
+            items.Enqueue(item);
+            nextZ += Mathf.Max(1f, Random.Range(minGap, maxGap));
         }
 
         // Remove scenery that is far behind the player

@@ -14,16 +14,26 @@ public class PlayerRun : MonoBehaviour
     public float slideHeight = 1f;
     public float groundCheckExtra = 0.2f;
 
+    [Header("Model")]
+    public Transform visual;
+
     int lane = 0;
     float yVelocity = 0f;
     bool grounded = false;
     float previousHalfHeight = 1f;
     float startSpeed;
     float runTime = 0f;
+    bool isSliding = false;
+    CapsuleCollider capsule;
+
+    // The animator reads this to know when to roll
+    public bool IsSliding { get { return isSliding; } }
 
     void Start()
     {
         startSpeed = runSpeed;
+        capsule = GetComponent<CapsuleCollider>();
+        transform.localScale = Vector3.one;
     }
 
     void Update()
@@ -58,14 +68,27 @@ public class PlayerRun : MonoBehaviour
             grounded = false;
         }
 
-        // 3. Slide: stay low for as long as the key is held (only on the ground)
+        // 3. Roll: stay low for as long as the key is held (only on the ground)
         bool slideHeld = kb.downArrowKey.isPressed || kb.sKey.isPressed;
         bool sliding = grounded && slideHeld;
+        isSliding = sliding;
 
-        // 4. Body size (the capsule is 2 tall at scale 1)
+        // 4. Collider size: only the collider changes, the root stays at scale 1
         float height = sliding ? slideHeight : standHeight;
         float halfHeight = height / 2f;
-        transform.localScale = new Vector3(1f, halfHeight, 1f);
+        if (capsule != null)
+        {
+            capsule.height = height;
+            capsule.center = Vector3.zero;
+        }
+
+        // The model container keeps its feet on the ground (the animator adds the roll on top)
+        if (visual != null)
+        {
+            visual.localPosition = new Vector3(0f, -halfHeight, 0f);
+            visual.localRotation = Quaternion.identity;
+            visual.localScale = Vector3.one;
+        }
 
         // 5. Move forward and glide towards the middle of the chosen lane
         transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
