@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +24,7 @@ public class PauseMenu : MonoBehaviour
         }
 
         Keyboard kb = Keyboard.current;
-        if (kb.escapeKey.wasPressedThisFrame || kb.pKey.wasPressedThisFrame)
+        if (kb.escapeKey.wasPressedThisFrame || kb.pKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame)
         {
             if (paused)
             {
@@ -36,8 +37,18 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    // Space also "presses" the selected UI button, so nothing should stay selected
+    void ClearSelection()
+    {
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+    }
+
     public void Pause()
     {
+        ClearSelection();
         paused = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
@@ -46,6 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        ClearSelection();
         paused = false;
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
