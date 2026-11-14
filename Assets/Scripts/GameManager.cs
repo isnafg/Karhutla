@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         airBar.SetActive(false);
 
         string bestLine = newBest ? "New best!" : "Best: " + best + " m";
-        gameOverText.text = "<size=70>Game Over</size>\n<size=44>" + meters + " m</size>\n<size=44>" + bestLine + "\nPress R to restart</size>";
+        gameOverText.text = "<size=150>Game Over</size>\n<size=100>" + meters + " m</size>\n<size=100>" + bestLine + "\nPress R to restart</size>";
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f;
     }

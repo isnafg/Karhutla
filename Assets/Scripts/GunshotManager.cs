@@ -16,7 +16,8 @@ public class GunshotManager : MonoBehaviour
     public float highHeight = 1.7f;
     public float safeMargin = 12f;
     public float retryTime = 0.5f;
-    public float markHeight = 3.4f;
+    public float markHeight = 2f;
+    public float markAhead = 12f;
     public float flickerSpeed = 4f;
     public bool logDebug = false;
 
@@ -123,8 +124,7 @@ public class GunshotManager : MonoBehaviour
                 continue;
             }
 
-            Vector3 world = new Vector3(lane * laneWidth, markHeight, player.position.z);
-            Vector3 screen = cam.WorldToScreenPoint(world);
+            Vector3 world = new Vector3(lane * laneWidth, markHeight, player.position.z + markAhead);            Vector3 screen = cam.WorldToScreenPoint(world);
             laneMarks[i].position = new Vector3(screen.x, screen.y, 0f);
             groups[i].alpha = flicker;
         }
