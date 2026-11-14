@@ -8,26 +8,27 @@ public class CrashDetector : MonoBehaviour
     {
         if (other.name.Contains("Bullet"))
         {
-            // A bullet kills instantly, with no extra chances
+            if (AudioManager.Instance != null) { AudioManager.Instance.PlayBulletHit(); }
             GameManager.Instance.GameOver();
         }
         else if (other.name.StartsWith("Obstacle"))
         {
-            // Every other obstacle: costs air and counts as one of the three hits
+            if (AudioManager.Instance != null)
+            {
+                if (other.name.Contains("Fire")) { AudioManager.Instance.PlayFireHit(); }
+                else { AudioManager.Instance.PlayObstacleHit(); }
+            }
             other.enabled = false;
             FireChase.Instance.Stumble();
         }
         else
         {
-            // Pickups refill the air bar and burst into particles
             Pickup pickup = other.GetComponent<Pickup>();
             if (pickup != null)
             {
                 AirSystem.Instance.AddAir(pickup.airAmount);
-                if (pickupEffect != null)
-                {
-                    Instantiate(pickupEffect, other.transform.position, Quaternion.identity);
-                }
+                if (AudioManager.Instance != null) { AudioManager.Instance.PlayPickup(); }
+                if (pickupEffect != null) { Instantiate(pickupEffect, other.transform.position, Quaternion.identity); }
                 other.gameObject.SetActive(false);
             }
         }

@@ -101,6 +101,12 @@ public class GunshotManager : MonoBehaviour
         {
             laneMarks[i].gameObject.SetActive(false);
         }
+
+        // The warning sound stops the moment the marks are gone
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopWarning();
+        }
     }
 
     // Shows a flickering mark above the player's head in every lane that will get a bullet
@@ -136,6 +142,10 @@ public class GunshotManager : MonoBehaviour
         }
 
         // Warning: a mark on every lane that will get a bullet
+        if (AudioManager.Instance != null) 
+        { 
+            AudioManager.Instance.PlayWarning(); 
+        }
         float t = 0f;
         while (t < warningTime)
         {
@@ -153,6 +163,10 @@ public class GunshotManager : MonoBehaviour
         HideMarks();
 
         // Two bullets, each randomly high or low
+        if (AudioManager.Instance != null) 
+        { 
+            AudioManager.Instance.PlayGunshot(); 
+        }
         for (int lane = -1; lane <= 1; lane++)
         {
             if (lane == freeLane)

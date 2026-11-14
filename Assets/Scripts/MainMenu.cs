@@ -17,11 +17,13 @@ public class MainMenu : MonoBehaviour
 
     public void OnPlay()
     {
+        if (AudioManager.Instance != null) { AudioManager.Instance.PlayClick(); }
         SceneManager.LoadScene(gameSceneName);
     }
 
     public void OnExit()
     {
+        if (AudioManager.Instance != null) { AudioManager.Instance.PlayClick(); }
 #if UNITY_WEBGL && !UNITY_EDITOR
         // A browser game can't close its own tab, so show a goodbye message instead
         exitMessage.SetActive(true);

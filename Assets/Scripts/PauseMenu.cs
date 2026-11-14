@@ -41,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         paused = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
+        if (AudioManager.Instance != null) { AudioManager.Instance.PlayClick(); }
     }
 
     public void Resume()
@@ -48,11 +49,13 @@ public class PauseMenu : MonoBehaviour
         paused = false;
         pausePanel.SetActive(false);
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null) { AudioManager.Instance.PlayResume(); }
     }
 
     public void QuitToMenu()
     {
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null) { AudioManager.Instance.PlayClick(); }
         SceneManager.LoadScene(menuSceneName);
     }
 }

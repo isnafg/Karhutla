@@ -55,6 +55,11 @@ public class GameManager : MonoBehaviour
         }
         isOver = true;
 
+        if (AudioManager.Instance != null) 
+        {
+            AudioManager.Instance.PlayGameOver();
+        }
+
         // Save a new best distance
         bool newBest = meters > best;
         if (newBest)
