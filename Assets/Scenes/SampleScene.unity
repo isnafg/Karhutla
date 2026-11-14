@@ -2360,11 +2360,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneryManager
   forestPrefabs:
+  - {fileID: 4761380062557294761, guid: 0775351cf8c15417e8db27c57c94246e, type: 3}
   - {fileID: 6037957633072270537, guid: 02f29684356144002be1718354edd131, type: 3}
+  - {fileID: 829944098736382085, guid: cd2f2c9b989ae40bfa115b8d660b9ab0, type: 3}
+  - {fileID: 8718297032613650090, guid: c9604a1824a164a128b523e581100bc8, type: 3}
   burntPrefabs:
-  - {fileID: 4778049355092476355, guid: eab451756f837408099842a25528770d, type: 3}
+  - {fileID: 2873846568723289856, guid: aadb99ffcb00448ceab5ae95550c67bf, type: 3}
+  - {fileID: 4119892682503936943, guid: 72e91c369f0444be8b598786f595fc27, type: 3}
+  - {fileID: 5237251265455676895, guid: fcf22e27ef9234bac8048f06c5efbc0f, type: 3}
+  - {fileID: 6923140188581843148, guid: 7c4b9fcf4594d4e58892d6bf4bfc2e91, type: 3}
   housePrefabs:
   - {fileID: 1880394967325136831, guid: c3221bd5ecbe84173b3d64ccc7c22fc8, type: 3}
+  - {fileID: 663485334650490009, guid: 559f00a74a1c740b8a243ce935caceb7, type: 3}
+  - {fileID: 2651144132048955805, guid: 3608efaa9b4374e49bc831aeba55d58d, type: 3}
+  - {fileID: 3940513400897403310, guid: 28470a204d1ed47a9b647541164d6420, type: 3}
   player: {fileID: 1167665788}
   groundY: 0.25
   spawnAhead: 100
